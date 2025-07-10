@@ -1,0 +1,8 @@
+# Ignorar arquivos de dados
+*.xlsx
+*.xls
+*.csv
+
+# Ignorar pastas de ambiente e cache do Python
+.venv/
+__pycache__/
