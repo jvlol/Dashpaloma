@@ -1,1 +1,1 @@
-language-pack-pt-base
+locales-all

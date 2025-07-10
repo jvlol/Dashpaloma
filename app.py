@@ -13,10 +13,23 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+# Função para formatar moeda, com um plano B caso o locale falhe
+def format_currency(value):
+    try:
+        return locale.currency(value, grouping=True)
+    except (TypeError, ValueError):
+        # Plano B: Formatação manual se o locale não funcionar
+        return f"R$ {value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+# Tenta configurar o locale, mas o app continua se falhar
 try:
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    # Se funcionar, a função principal de formatação será a do locale
+    currency_formatter = locale.currency
 except locale.Error:
-    st.warning("Locale 'pt_BR.UTF-8' não encontrado.")
+    st.warning("Locale 'pt_BR.UTF-8' não encontrado. Usando formatação manual de moeda.")
+    # Se falhar, a função principal de formatação será nosso plano B
+    currency_formatter = format_currency
 
 # --- FUNÇÕES AUXILIARES (do seu código) ---
 @st.cache_data
